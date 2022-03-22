@@ -50,4 +50,4 @@ jobs:
         with:
           message: "Update version"
           cwd: './namespace'
-          add: 'kustomization/deployment.yaml'
+          add: '*.yaml'
