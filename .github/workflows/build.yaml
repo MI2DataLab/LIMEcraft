@@ -30,3 +30,24 @@ jobs:
           push: true
           tags: ${{ format('quay.mi2.ai/piotrpiatyszek/limecraft:{0}', steps.gettag.outputs.tag) }}
           context: '.'
+      - name: Checkout namespace repo
+        uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.NAMESPACE_REPO_KEY }}
+          path: 'namespace'
+          repository: 'MI-Akira/namespace-limecraft-demo'
+      - name: Update tag
+        env:
+          TAG: ${{ steps.gettag.outputs.tag }}
+        run: |
+          cat namespace/kustomization/deployment.yaml |sed "s/image: quay.io\/piotrpiatyszek\/limecraft.*/image: quay.io\/piotrpiatyszek\/limecraft:$TAG/g" > namespace/kustomization/deployment.yaml.new
+          mv namespace/kustomization/deployment.yaml.new namespace/kustomization/deployment.yaml
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+            ssh-private-key: ${{ secrets.NAMESPACE_REPO_KEY }}
+      - name: Commit new version
+        uses: EndBug/add-and-commit@v8
+        with:
+          message: "Update version"
+          cwd: './namespace'
+          add: 'kustomization/deployment.yaml'
