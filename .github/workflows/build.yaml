@@ -28,5 +28,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ 'quay.mi2.ai/piotrpiatyszek/limecraft:' + steps.gettag.outputs.tag }}
+          tags: ${{ format('quay.mi2.ai/piotrpiatyszek/limecraft:{0}', steps.gettag.outputs.tag) }}
           context: '.'
