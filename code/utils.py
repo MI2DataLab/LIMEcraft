@@ -3,6 +3,7 @@ from skimage import draw
 import cv2
 import pandas as pd
 from PIL import Image
+import tensorflow
 from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 
@@ -86,13 +87,13 @@ def find_centrum(path):
 
 
 
-def circle_rotate(im, x, y, radius, degree, mask, sub_mask=None, left_right=0, up_down=0):
+def circle_rotate(im, x, y, radius, degree, img_shape, mask, sub_mask=None, left_right=0, up_down=0):
     """
     Rotates and shifts the selected part of the picture
 
     """
     img_arr = np.array(im)
-    box = (max(x-radius,0), max(y-radius,0), min(x+radius+1,224), min(y+radius+1,224))
+    box = (max(x-radius,0), max(y-radius,0), min(x+radius+1,img_shape[1]), min(y+radius+1,img_shape[0]))
     crop = im.crop(box=box)
     crop_arr = np.asarray(crop)
     # build the circle mask
@@ -201,3 +202,32 @@ def merge_all_preds(str_original, str_color, str_rotation, str_shape):
     df=pd.merge(df, df4, on="class", how='outer').fillna('-')
 
     return df
+
+def count_superpix(mask, superpix_count):
+    """
+    superpix_count (int) - summarized superpixels count
+    return optimal inside and outside of mask superpixels count
+    """
+
+    number_of_inside_pix = np.sum(mask != 0)
+    number_of_outside_pix = np.sum(mask == 0)
+    count_inside_superpix = np.int32(np.round(superpix_count * number_of_inside_pix / (number_of_inside_pix+number_of_outside_pix)))
+    count_outside_superpix = superpix_count - count_inside_superpix
+    return [count_inside_superpix, count_outside_superpix]
+
+
+def count_pix_proportions(mask):
+    """
+    Mask with negative (-1), neutral (0) and positive (1) meaning of values of superpixels.
+    It counts proportions of each of their's pixels number to all pixels in the mask.
+    """
+    neg_pix_n = np.sum(mask==-1)
+    pos_pix_n = np.sum(mask==1)
+    neu_pix_n = mask.shape[0]*mask.shape[1]-neg_pix_n-pos_pix_n
+
+    all_pix_n = mask.shape[0]*mask.shape[1]
+    result = ['Superpixels that contribute:\n',
+    'positively (green color): ', str(np.round(pos_pix_n/all_pix_n*100,2)), '%,\n',
+    'negatively (red color): ', str(np.round(neg_pix_n/all_pix_n*100,2)), '%,\n',
+     'neutrally: ', str(np.round(neu_pix_n/all_pix_n*100,2)), '%']
+    return ''.join(result)

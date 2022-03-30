@@ -43,6 +43,8 @@ go to code/dashboard_LIMEcraft.ipynb\
 choose venv in Kernel -> Change kernel
 run the whole notebook\
 type http://127.0.0.1:8001/ in the web browser
+\
+If you have problems with running code on GPU, put *os.environ['CUDA_VISIBLE_DEVICES'] = '-1'* after *import os* in code/dashboard_LIMEcraft.ipynb.
 
 ### How to test own model?
 

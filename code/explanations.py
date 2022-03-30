@@ -280,7 +280,7 @@ def test_lime(model, img):
     temp, mask = explanation.get_image_and_mask(explanation.top_labels[0], positive_only=False, num_features=10, hide_rest=False)
     out2 = mark_boundaries(mark_boundaries(temp / 2 + 0.5, mask), segments)
 
-    return out2
+    return [out2, mask]
 
 
 
@@ -316,4 +316,4 @@ def test_limecraft(model, img, mask, inner_n_segments, outer_n_segments):
     segments = explanation.segments
     out1 = mark_boundaries(mark_boundaries(temp, mask2), segments)
 
-    return [out1, decoded_predictions]
+    return [out1, decoded_predictions, mask2]
