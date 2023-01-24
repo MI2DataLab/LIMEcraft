@@ -55,19 +55,22 @@ change selected model in *code/dashboard_LIMEcraft.ipynb* in section "Choose mod
 ## Reference
 
 Paper for this work is avaliable at:
-<https://arxiv.org/abs/2111.08094>
+<https://link.springer.com/article/10.1007/s10994-022-06204-w>
 
 If you find our work useful, please cite our paper:
 
 ```
-@misc{Hryniewska2021LIMEcraft,
+@misc{Hryniewska2022LIMEcraft,
 	title={{LIMEcraft: Handcrafted superpixel selection and inspection for Visual eXplanations}}, 
 	author={Weronika Hryniewska and Adrianna Grudzień and Przemysław Biecek},
-	year={2021},
+	journal = {Machine Learning},
+	year={2022},
+	month = {jul},
 	eprint={2111.08094},
-	archivePrefix={arXiv},
-	primaryClass={cs.CV}
+	primaryClass={cs.CV},
+	publisher = {Springer Science and Business Media {LLC}},
 	keywords = {Explainable AI, superpixels, LIME, image features, interactive User Interface},
-	howpublished = {\url{https://arxiv.org/abs/2111.08094}},
+	doi = {10.1007/s10994-022-06204-w},
+	url = {https://doi.org/10.1007%2Fs10994-022-06204-w}
 }
 ```
