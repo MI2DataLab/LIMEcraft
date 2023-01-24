@@ -60,7 +60,7 @@ Paper for this work is avaliable at:
 If you find our work useful, please cite our paper:
 
 ```
-@misc{Hryniewska2022LIMEcraft,
+@article{Hryniewska2022LIMEcraft,
 	title={{LIMEcraft: Handcrafted superpixel selection and inspection for Visual eXplanations}}, 
 	author={Weronika Hryniewska and Adrianna Grudzień and Przemysław Biecek},
 	journal = {Machine Learning},
